@@ -6,7 +6,10 @@ const gameArea = document.querySelector("#game-area");
 const scoreElement = document.querySelector("#score");
 let score = 0;
 
-// move the monster
+const timerElement = document.querySelector("#timer");
+const startButton = document.querySelector("#start-button");
+
+///////////////////////////////////// move the monster
 function moveMonster () {
     const maxX = gameArea.clientWidth - monster.offsetWidth; // available width for the monster to move
     const maxY = gameArea.clientHeight - monster.offsetHeight; // available height for the monster to move
@@ -17,6 +20,26 @@ function moveMonster () {
     monster.style.left = randomX + "px"; //
     monster.style.top = randomY + "px";
 }
+
+//////////////////////////////// function to set the timer
+let timeLeft = 15;
+let timerInterval;
+
+function startTimer() {
+    timerInterval = setInterval(function() {
+        timeLeft--;
+
+        timerElement.textContent = timeLeft;
+
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+        }
+    }, 1000);
+}
+
+
+
+
 
 // click listener to store the score and move the monster
 monster.addEventListener("click", function() {
@@ -31,7 +54,11 @@ monster.addEventListener("click", function() {
     moveMonster();
 });
 
-// click listener for the monster
-monster.addEventListener("click", function() {
-    moveMonster();
+// // click listener for the monster
+// monster.addEventListener("click", function() {
+//     moveMonster();
+// });
+
+startButton.addEventListener("click", function() {
+    startTimer();
 });
