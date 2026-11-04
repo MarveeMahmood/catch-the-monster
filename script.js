@@ -8,6 +8,9 @@ const scoreElement = document.querySelector("#score");
 const timerElement = document.querySelector("#timer");
 const startButton = document.querySelector("#start-button");
 
+const difficultySelect = document.querySelector("#difficulty");
+//console.log(difficultySelect.value);
+
 let score = 0;
 let timeLeft = 15; // fresh start!
 let timerInterval;
@@ -26,6 +29,24 @@ function moveMonster () {
     monster.style.top = randomY + "px";
 }
 
+/////////////////////////////////////////// function to set the difficulty
+
+
+function setDifficulty() {
+
+    const difficulty = difficultySelect.value;
+
+    if (difficulty === "easy") {
+        monster.style.fontSize = "50px";
+
+    } else if (difficulty === "medium") {
+        monster.style.fontSize = "35px";
+
+    } else if (difficulty === "hard") {
+        monster.style.fontSize = "20px";
+    }
+}
+
 //////////////////////////////// function to set the timer
 
 
@@ -36,6 +57,8 @@ function startTimer() {
     }
 
     gameActive = true; // set the game as active
+
+    difficultySelect.disabled = true;
 
     score = 0;
     scoreElement.textContent = score; // reset the score display
@@ -52,6 +75,7 @@ function startTimer() {
             clearInterval(timerInterval); // time is up, even clock needs a break, so stop ticking!:)
             alert("Time's up! Your score is: " + score); // show the final score
             gameActive = false; // set the game as inactive
+            difficultySelect.disabled = false; // re-enable the difficulty select
         }
     }, 1000);
 }
@@ -73,6 +97,8 @@ monster.addEventListener("click", function() {
     moveMonster();
 });
 
+setDifficulty();
+
 // // click listener for the monster
 // monster.addEventListener("click", function() {
 //     moveMonster();
@@ -81,4 +107,15 @@ monster.addEventListener("click", function() {
 // click listener for the start button
 startButton.addEventListener("click", function() {
     startTimer();
+});
+
+// // change listener for the difficulty select
+// difficultySelect.addEventListener("change", function() {
+//     console.log("Difficulty changed to: " + difficultySelect.value);   
+// });
+
+
+// change listener for the difficulty select
+difficultySelect.addEventListener("change", function() {
+    setDifficulty();
 });
