@@ -4,12 +4,17 @@ const monster = document.querySelector("#monster");
 const gameArea = document.querySelector("#game-area");
 
 const scoreElement = document.querySelector("#score");
-let score = 0;
 
 const timerElement = document.querySelector("#timer");
 const startButton = document.querySelector("#start-button");
 
-///////////////////////////////////// move the monster
+let score = 0;
+let timeLeft = 15; // fresh start!
+let timerInterval;
+
+let gameActive = false;
+
+///////////////////////////////////// function to move the monster
 function moveMonster () {
     const maxX = gameArea.clientWidth - monster.offsetWidth; // available width for the monster to move
     const maxY = gameArea.clientHeight - monster.offsetHeight; // available height for the monster to move
@@ -22,32 +27,46 @@ function moveMonster () {
 }
 
 //////////////////////////////// function to set the timer
-let timeLeft = 15;
-let timerInterval;
+
 
 function startTimer() {
+
+    if (gameActive === true) {
+        return; // don't start a new timer, one is enough :)
+    }
+
+    gameActive = true; // set the game as active
+
+    score = 0;
+    scoreElement.textContent = score; // reset the score display
+
+    timeLeft = 15;
+    timerElement.textContent = timeLeft; // reset the timer display
+
     timerInterval = setInterval(function() {
         timeLeft--;
 
         timerElement.textContent = timeLeft;
 
         if (timeLeft === 0) {
-            clearInterval(timerInterval);
+            clearInterval(timerInterval); // time is up, even clock needs a break, so stop ticking!:)
+            alert("Time's up! Your score is: " + score); // show the final score
+            gameActive = false; // set the game as inactive
         }
     }, 1000);
 }
 
 
 
-
-
-// click listener to store the score and move the monster
+// monster click, click listener to store the score and move the monster
 monster.addEventListener("click", function() {
 
-    // Increase score
+    if (gameActive === false) {
+        return; // if the game is not active, do nothing
+    }
+
     score++;
 
-    
     scoreElement.textContent = score;
 
     
@@ -59,6 +78,7 @@ monster.addEventListener("click", function() {
 //     moveMonster();
 // });
 
+// click listener for the start button
 startButton.addEventListener("click", function() {
     startTimer();
 });
