@@ -13,6 +13,14 @@ const difficultySelect = document.querySelector("#difficulty");
 
 const highScoreElement = document.querySelector("#high-score");
 
+//sounds
+const catchSound = new Audio("assets/sounds/catch.wav");
+const startSound = new Audio("assets/sounds/start.wav");
+const gameOverSound = new Audio("assets/sounds/game-over.wav");
+const countdownSound = new Audio("assets/sounds/countdown.wav");
+const successSound = new Audio("assets/sounds/success.wav");
+
+//variables
 let score = 0;
 let timeLeft = 15; // fresh start!
 let timerInterval;
@@ -86,6 +94,8 @@ function startTimer() {
     timerInterval = setInterval(function() {
         timeLeft--;
 
+       
+
         timerElement.textContent = timeLeft;
 
         if (timeLeft === 0) {
@@ -96,6 +106,9 @@ function startTimer() {
                 localStorage.setItem("highScore", score);// store the new high score in local storage
                 highScoreElement.textContent = highScore;
             }
+
+            gameOverSound.currentTime = 0;
+            gameOverSound.play();
 
             alert("Time's up! Your score is: " + score); // show the final score
             gameActive = false; // set the game as inactive
@@ -115,6 +128,9 @@ monster.addEventListener("click", function() {
 
     score++;
 
+    catchSound.currentTime = 0;
+    catchSound.play();
+
     scoreElement.textContent = score;
 
     if (score >= 10) {
@@ -125,15 +141,20 @@ monster.addEventListener("click", function() {
     moveMonster();
 });
 
-setDifficulty();
+setDifficulty(); //call func on page load
 
-// // click listener for the monster
-// monster.addEventListener("click", function() {
-//     moveMonster();
-// });
+        // // click listener for the monster
+        // monster.addEventListener("click", function() {
+        //     moveMonster();
+        // });
 
 // click listener for the start button
 startButton.addEventListener("click", function() {
+
+    startSound.currentTime = 0; // reset the start sound to the beginning
+    startSound.play(); // play the start sound
+
+
     startTimer();
 });
 
