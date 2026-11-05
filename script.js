@@ -36,24 +36,34 @@ function setDifficulty() {
 
     const difficulty = difficultySelect.value;
 
+    let monsterSize;
+
     if (difficulty === "easy") {
-        monster.style.fontSize = "50px";
+       // monster.style.fontSize = "50px";
+       monsterSize = 50;
 
     } else if (difficulty === "medium") {
-        monster.style.fontSize = "35px";
+        //monster.style.fontSize = "35px";
+        monsterSize = 35;
 
     } else if (difficulty === "hard") {
-        monster.style.fontSize = "20px";
+        //monster.style.fontSize = "20px";
+        monsterSize = 20;
     }
+     if (score >= 10) {
+        monsterSize = monsterSize - 15;
+    }
+
+    monster.style.fontSize = monsterSize + "px";// 
 }
 
-//////////////////////////////// function to set the timer
+//////////////////////////////// function to set/start the timer
 
 
 function startTimer() {
 
     if (gameActive === true) {
-        return; // don't start a new timer, one is enough :)
+        return; // don't start a new timer, if the game is already active
     }
 
     gameActive = true; // set the game as active
@@ -62,6 +72,8 @@ function startTimer() {
 
     score = 0;
     scoreElement.textContent = score; // reset the score display
+
+    setDifficulty(); // reset the monster size based on the selected difficulty
 
     timeLeft = 15;
     timerElement.textContent = timeLeft; // reset the timer display
@@ -72,7 +84,7 @@ function startTimer() {
         timerElement.textContent = timeLeft;
 
         if (timeLeft === 0) {
-            clearInterval(timerInterval); // time is up, even clock needs a break, so stop ticking!:)
+            clearInterval(timerInterval); // time is up, so stop ticking!
             alert("Time's up! Your score is: " + score); // show the final score
             gameActive = false; // set the game as inactive
             difficultySelect.disabled = false; // re-enable the difficulty select
@@ -93,6 +105,10 @@ monster.addEventListener("click", function() {
 
     scoreElement.textContent = score;
 
+    if (score >= 10) {
+    //monster.style.fontSize = "15px";// make the monster smaller after 10 points
+    setDifficulty(); // adjust the monster size based on the score and difficulty
+    }
     
     moveMonster();
 });
