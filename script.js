@@ -17,8 +17,7 @@ const highScoreElement = document.querySelector("#high-score");
 const catchSound = new Audio("assets/sounds/catch.wav");
 const startSound = new Audio("assets/sounds/start.wav");
 const gameOverSound = new Audio("assets/sounds/game-over.wav");
-const countdownSound = new Audio("assets/sounds/countdown.wav");
-const successSound = new Audio("assets/sounds/success.wav");
+
 
 //variables
 let score = 0;
@@ -137,7 +136,13 @@ monster.addEventListener("click", function() {
     //monster.style.fontSize = "15px";// make the monster smaller after 10 points
     setDifficulty(); // adjust the monster size based on the score and difficulty
     }
+        
+        monster.classList.remove("caught");
     
+        void monster.offsetWidth;
+        
+        monster.classList.add("caught");//
+
     moveMonster();
 });
 
@@ -158,10 +163,10 @@ startButton.addEventListener("click", function() {
     startTimer();
 });
 
-// // change listener for the difficulty select
-// difficultySelect.addEventListener("change", function() {
-//     console.log("Difficulty changed to: " + difficultySelect.value);   
-// });
+        // // change listener for the difficulty select
+        // difficultySelect.addEventListener("change", function() {
+        //     console.log("Difficulty changed to: " + difficultySelect.value);   
+        // });
 
 
 // change listener for the difficulty select
