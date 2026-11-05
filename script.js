@@ -11,11 +11,16 @@ const startButton = document.querySelector("#start-button");
 const difficultySelect = document.querySelector("#difficulty");
 //console.log(difficultySelect.value);
 
+const highScoreElement = document.querySelector("#high-score");
+
 let score = 0;
 let timeLeft = 15; // fresh start!
 let timerInterval;
 
 let gameActive = false;
+
+let highScore = localStorage.getItem("highScore") || 0;
+highScoreElement.textContent = highScore;
 
 ///////////////////////////////////// function to move the monster
 function moveMonster () {
@@ -85,6 +90,13 @@ function startTimer() {
 
         if (timeLeft === 0) {
             clearInterval(timerInterval); // time is up, so stop ticking!
+
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("highScore", score);// store the new high score in local storage
+                highScoreElement.textContent = highScore;
+            }
+
             alert("Time's up! Your score is: " + score); // show the final score
             gameActive = false; // set the game as inactive
             difficultySelect.disabled = false; // re-enable the difficulty select
